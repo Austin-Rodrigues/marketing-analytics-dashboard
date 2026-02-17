@@ -1,0 +1,60 @@
+[server]
+headless = true
+```
+
+4. Also create a file called `runtime.txt` in the root:
+```
+python-3.11
+```
+
+5. Commit both files
+6. Go back to Streamlit Cloud and click "Reboot"
+
+---
+
+### **Fix 3: Simplify requirements.txt Even More**
+
+Try the absolute minimum:
+```
+streamlit>=1.28.0
+pandas>=2.0.0
+plotly>=5.0.0
+```
+
+---
+
+### **Fix 4: Delete and Redeploy**
+
+Sometimes Streamlit Cloud gets stuck:
+
+1. In Streamlit Cloud, go to your app settings
+2. Click **"Delete app"**
+3. Create a **new app** from scratch
+4. Select your repository again
+5. Deploy fresh
+
+---
+
+## 🎯 **Most Likely Issue**
+
+The problem is probably:
+- **Python 3.13 compatibility** (it's too new)
+- **Specific version numbers** in requirements.txt causing conflicts
+
+---
+
+## ✅ **Recommended Action Plan**
+
+**Do this in order:**
+
+1. **Update requirements.txt** (remove version numbers):
+```
+   streamlit
+   pandas
+   plotly
+   numpy
+```
+
+2. **Add runtime.txt** to force Python 3.11:
+```
+   python-3.11
