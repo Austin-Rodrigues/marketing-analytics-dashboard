@@ -14,11 +14,11 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# IMPROVED COLOR SCHEME - Brand accurate colors
+# IMPROVED COLOR SCHEME - Professional & Balanced
 PLATFORM_COLORS = {
     'Facebook': '#1877F2',  # Facebook Blue
-    'Google': '#4285F4',     # Google Blue  
-    'TikTok': '#FF0050'      # TikTok Pink/Red
+    'Google': '#34A853',    # Google Green
+    'TikTok': '#FF0050'     # TikTok Pink
 }
 
 # Custom CSS with improved styling
