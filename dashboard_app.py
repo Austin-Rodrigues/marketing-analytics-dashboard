@@ -14,32 +14,50 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
+# IMPROVED COLOR SCHEME - Brand accurate colors
+PLATFORM_COLORS = {
+    'Facebook': '#1877F2',  # Facebook Blue
+    'Google': '#4285F4',     # Google Blue  
+    'TikTok': '#FF0050'      # TikTok Pink/Red
+}
+
+# Custom CSS with improved styling
 st.markdown("""
 <style>
     .main-header {
         font-size: 2.5rem;
         font-weight: 700;
-        color: #1f77b4;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 0.5rem;
     }
     .sub-header {
         font-size: 1.2rem;
-        color: #666;
+        color: #888;
         margin-bottom: 2rem;
     }
-    .metric-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .stMetric {
+        background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
         padding: 1.5rem;
         border-radius: 10px;
-        color: white;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 1px solid #667eea;
     }
-    .stMetric {
-        background-color: #f8f9fa;
-        padding: 1rem;
-        border-radius: 8px;
-        border-left: 4px solid #1f77b4;
+    .stMetric label {
+        color: #a0a0c0 !important;
+        font-size: 0.9rem !important;
+    }
+    .stMetric [data-testid="stMetricValue"] {
+        color: #ffffff !important;
+        font-size: 1.8rem !important;
+        font-weight: 700 !important;
+    }
+    .insight-box {
+        background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+        padding: 1.5rem;
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+        margin: 1rem 0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -59,7 +77,7 @@ def load_data():
     fb_std['cost'] = fb_std['spend']
     fb_std['subgroup_id'] = fb_std['ad_set_id']
     fb_std['subgroup_name'] = fb_std['ad_set_name']
-    fb_std['conversion_value'] = fb_std['conversions'] * 50  # Estimated value
+    fb_std['conversion_value'] = fb_std['conversions'] * 50
     
     # Standardize Google data
     google_std = google.copy()
@@ -72,7 +90,7 @@ def load_data():
     tiktok_std['platform'] = 'TikTok'
     tiktok_std['subgroup_id'] = tiktok_std['adgroup_id']
     tiktok_std['subgroup_name'] = tiktok_std['adgroup_name']
-    tiktok_std['conversion_value'] = tiktok_std['conversions'] * 50  # Estimated value
+    tiktok_std['conversion_value'] = tiktok_std['conversions'] * 50
     tiktok_std['video_completion_rate'] = tiktok_std['video_watch_100'] / tiktok_std['video_views']
     tiktok_std['social_engagement'] = tiktok_std['likes'] + tiktok_std['shares'] + tiktok_std['comments']
     
@@ -97,17 +115,14 @@ def load_data():
     unified['roas'] = (unified['conversion_value'] / unified['cost'] * 100).round(2)
     unified['cpm'] = (unified['cost'] / unified['impressions'] * 1000).round(2)
     
-    # Add week
-    unified['week'] = unified['date'].dt.isocalendar().week
-    
-    return unified, fb_std, google_std, tiktok_std
+    return unified
 
 # Load data
-unified_data, fb_data, google_data, tiktok_data = load_data()
+unified_data = load_data()
 
 # Header
 st.markdown('<p class="main-header">📊 Cross-Channel Advertising Performance Dashboard</p>', unsafe_allow_html=True)
-st.markdown('<p class="sub-header">Unified analytics across Facebook, Google, and TikTok advertising platforms</p>', unsafe_allow_html=True)
+st.markdown('<p class="sub-header">Unified analytics across Facebook, Google Ads, and TikTok advertising platforms</p>', unsafe_allow_html=True)
 
 # Sidebar filters
 st.sidebar.header("🎯 Filters")
@@ -148,9 +163,7 @@ if platforms:
 if campaigns:
     filtered_data = filtered_data[filtered_data['campaign_name'].isin(campaigns)]
 
-# ============================================================================
 # KEY METRICS SECTION
-# ============================================================================
 st.header("📈 Key Performance Indicators")
 
 col1, col2, col3, col4, col5 = st.columns(5)
@@ -174,9 +187,7 @@ with col5:
 
 st.divider()
 
-# ============================================================================
 # PLATFORM COMPARISON
-# ============================================================================
 st.header("🔄 Platform Performance Comparison")
 
 platform_summary = filtered_data.groupby('platform').agg({
@@ -195,17 +206,26 @@ platform_summary['roas'] = (platform_summary['conversion_value'] / platform_summ
 col1, col2 = st.columns(2)
 
 with col1:
-    # Spend by platform - Pie chart
+    # Spend by platform - Pie chart with brand colors
     fig_spend = px.pie(
         platform_summary, 
         values='cost', 
         names='platform',
         title='Ad Spend Distribution by Platform',
         color='platform',
-        color_discrete_map={'Facebook': '#1877f2', 'Google': '#4285f4', 'TikTok': '#000000'},
+        color_discrete_map=PLATFORM_COLORS,
         hole=0.4
     )
-    fig_spend.update_traces(textposition='inside', textinfo='percent+label')
+    fig_spend.update_traces(
+        textposition='inside', 
+        textinfo='percent+label',
+        textfont_size=14,
+        marker=dict(line=dict(color='#FFFFFF', width=2))
+    )
+    fig_spend.update_layout(
+        showlegend=True,
+        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
+    )
     st.plotly_chart(fig_spend, use_container_width=True)
 
 with col2:
@@ -216,10 +236,14 @@ with col2:
         y='conversions',
         title='Total Conversions by Platform',
         color='platform',
-        color_discrete_map={'Facebook': '#1877f2', 'Google': '#4285f4', 'TikTok': '#000000'},
+        color_discrete_map=PLATFORM_COLORS,
         text='conversions'
     )
-    fig_conv.update_traces(texttemplate='%{text:.0f}', textposition='outside')
+    fig_conv.update_traces(
+        texttemplate='%{text:,.0f}', 
+        textposition='outside',
+        textfont_size=14
+    )
     fig_conv.update_layout(showlegend=False)
     st.plotly_chart(fig_conv, use_container_width=True)
 
@@ -237,12 +261,9 @@ st.dataframe(efficiency_display, use_container_width=True, hide_index=True)
 
 st.divider()
 
-# ============================================================================
 # TIME SERIES ANALYSIS
-# ============================================================================
 st.header("📅 Performance Trends Over Time")
 
-# Daily trends
 daily_trends = filtered_data.groupby(['date', 'platform']).agg({
     'cost': 'sum',
     'impressions': 'sum',
@@ -263,13 +284,15 @@ with col1:
         y='cost',
         color='platform',
         title='Daily Ad Spend Trend',
-        color_discrete_map={'Facebook': '#1877f2', 'Google': '#4285f4', 'TikTok': '#000000'},
+        color_discrete_map=PLATFORM_COLORS,
         markers=True
     )
+    fig_spend_trend.update_traces(line=dict(width=3), marker=dict(size=8))
     fig_spend_trend.update_layout(
         xaxis_title="Date",
         yaxis_title="Spend ($)",
-        hovermode='x unified'
+        hovermode='x unified',
+        legend=dict(orientation="h", yanchor="bottom", y=-0.3, xanchor="center", x=0.5)
     )
     st.plotly_chart(fig_spend_trend, use_container_width=True)
 
@@ -281,13 +304,15 @@ with col2:
         y='conversions',
         color='platform',
         title='Daily Conversions Trend',
-        color_discrete_map={'Facebook': '#1877f2', 'Google': '#4285f4', 'TikTok': '#000000'},
+        color_discrete_map=PLATFORM_COLORS,
         markers=True
     )
+    fig_conv_trend.update_traces(line=dict(width=3), marker=dict(size=8))
     fig_conv_trend.update_layout(
         xaxis_title="Date",
         yaxis_title="Conversions",
-        hovermode='x unified'
+        hovermode='x unified',
+        legend=dict(orientation="h", yanchor="bottom", y=-0.3, xanchor="center", x=0.5)
     )
     st.plotly_chart(fig_conv_trend, use_container_width=True)
 
@@ -298,21 +323,21 @@ fig_roas = px.line(
     y='roas',
     color='platform',
     title='Daily ROAS Trend',
-    color_discrete_map={'Facebook': '#1877f2', 'Google': '#4285f4', 'TikTok': '#000000'},
+    color_discrete_map=PLATFORM_COLORS,
     markers=True
 )
+fig_roas.update_traces(line=dict(width=3), marker=dict(size=8))
 fig_roas.update_layout(
     xaxis_title="Date",
     yaxis_title="ROAS (%)",
-    hovermode='x unified'
+    hovermode='x unified',
+    legend=dict(orientation="h", yanchor="bottom", y=-0.25, xanchor="center", x=0.5)
 )
 st.plotly_chart(fig_roas, use_container_width=True)
 
 st.divider()
 
-# ============================================================================
 # CAMPAIGN PERFORMANCE
-# ============================================================================
 st.header("🎯 Top Performing Campaigns")
 
 campaign_summary = filtered_data.groupby(['platform', 'campaign_name']).agg({
@@ -338,14 +363,15 @@ with col1:
         color='platform',
         orientation='h',
         title='Top 10 Campaigns by ROAS',
-        color_discrete_map={'Facebook': '#1877f2', 'Google': '#4285f4', 'TikTok': '#000000'},
+        color_discrete_map=PLATFORM_COLORS,
         text='roas'
     )
-    fig_top_roas.update_traces(texttemplate='%{text:.1f}%', textposition='outside')
+    fig_top_roas.update_traces(texttemplate='%{text:.1f}%', textposition='outside', textfont_size=12)
     fig_top_roas.update_layout(
         xaxis_title="ROAS (%)",
         yaxis_title="Campaign",
-        yaxis={'categoryorder': 'total ascending'}
+        yaxis={'categoryorder': 'total ascending'},
+        legend=dict(orientation="h", yanchor="bottom", y=-0.3, xanchor="center", x=0.5)
     )
     st.plotly_chart(fig_top_roas, use_container_width=True)
 
@@ -359,28 +385,27 @@ with col2:
         color='platform',
         orientation='h',
         title='Top 10 Campaigns by Conversions',
-        color_discrete_map={'Facebook': '#1877f2', 'Google': '#4285f4', 'TikTok': '#000000'},
+        color_discrete_map=PLATFORM_COLORS,
         text='conversions'
     )
-    fig_top_conv.update_traces(texttemplate='%{text:.0f}', textposition='outside')
+    fig_top_conv.update_traces(texttemplate='%{text:,.0f}', textposition='outside', textfont_size=12)
     fig_top_conv.update_layout(
         xaxis_title="Conversions",
         yaxis_title="Campaign",
-        yaxis={'categoryorder': 'total ascending'}
+        yaxis={'categoryorder': 'total ascending'},
+        legend=dict(orientation="h", yanchor="bottom", y=-0.3, xanchor="center", x=0.5)
     )
     st.plotly_chart(fig_top_conv, use_container_width=True)
 
 st.divider()
 
-# ============================================================================
 # EFFICIENCY ANALYSIS
-# ============================================================================
 st.header("⚡ Cross-Platform Efficiency Analysis")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    # CTR vs CPC scatter
+    # CTR vs CPC scatter with larger markers
     fig_scatter = px.scatter(
         campaign_summary,
         x='cpa',
@@ -389,12 +414,14 @@ with col1:
         color='platform',
         hover_data=['campaign_name'],
         title='Campaign Efficiency: CPA vs ROAS',
-        color_discrete_map={'Facebook': '#1877f2', 'Google': '#4285f4', 'TikTok': '#000000'},
-        size_max=30
+        color_discrete_map=PLATFORM_COLORS,
+        size_max=40
     )
+    fig_scatter.update_traces(marker=dict(line=dict(width=1, color='white')))
     fig_scatter.update_layout(
         xaxis_title="CPA ($)",
-        yaxis_title="ROAS (%)"
+        yaxis_title="ROAS (%)",
+        legend=dict(orientation="h", yanchor="bottom", y=-0.25, xanchor="center", x=0.5)
     )
     st.plotly_chart(fig_scatter, use_container_width=True)
 
@@ -402,7 +429,7 @@ with col2:
     # Platform comparison radar chart
     platform_metrics = platform_summary[['platform', 'cost', 'clicks', 'conversions']].copy()
     
-    # Normalize metrics to 0-100 scale for radar chart
+    # Normalize metrics to 0-100 scale
     for col in ['cost', 'clicks', 'conversions']:
         max_val = platform_metrics[col].max()
         platform_metrics[f'{col}_norm'] = (platform_metrics[col] / max_val * 100).round(2)
@@ -417,70 +444,59 @@ with col2:
                platform_data['conversions_norm'].values[0]],
             theta=['Spend', 'Clicks', 'Conversions'],
             fill='toself',
-            name=platform
+            name=platform,
+            line=dict(color=PLATFORM_COLORS[platform], width=3),
+            fillcolor=PLATFORM_COLORS[platform],
+            opacity=0.3
         ))
     
     fig_radar.update_layout(
-        polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
+        polar=dict(
+            radialaxis=dict(visible=True, range=[0, 100]),
+            bgcolor='rgba(0,0,0,0)'
+        ),
         showlegend=True,
-        title='Platform Performance Radar (Normalized)'
+        title='Platform Performance Radar (Normalized)',
+        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
     )
     st.plotly_chart(fig_radar, use_container_width=True)
 
 st.divider()
 
-# ============================================================================
-# DETAILED DATA TABLE
-# ============================================================================
-st.header("📋 Detailed Campaign Data")
-
-detailed_view = campaign_summary.copy()
-detailed_view = detailed_view.sort_values('cost', ascending=False)
-detailed_view['cost'] = detailed_view['cost'].apply(lambda x: f"${x:,.2f}")
-detailed_view['cpa'] = detailed_view['cpa'].apply(lambda x: f"${x:.2f}")
-detailed_view['roas'] = detailed_view['roas'].apply(lambda x: f"{x:.1f}%")
-detailed_view.columns = ['Platform', 'Campaign Name', 'Spend', 'Impressions', 'Clicks', 'Conversions', 'Conv. Value', 'ROAS', 'CPA']
-
-st.dataframe(
-    detailed_view[['Platform', 'Campaign Name', 'Spend', 'Impressions', 'Clicks', 'Conversions', 'ROAS', 'CPA']],
-    use_container_width=True,
-    hide_index=True
-)
-
-# ============================================================================
 # KEY INSIGHTS
-# ============================================================================
 st.header("💡 Key Insights")
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
     best_platform_roas = platform_summary.loc[platform_summary['roas'].idxmax()]
-    st.info(f"""
-    **🏆 Best ROAS Platform**
-    
-    {best_platform_roas['platform']} leads with {best_platform_roas['roas']:.1f}% ROAS, 
-    delivering ${best_platform_roas['conversion_value']:,.0f} in conversion value 
-    from ${best_platform_roas['cost']:,.0f} spend.
-    """)
+    st.markdown(f"""
+    <div class="insight-box">
+    <h3>🏆 Best ROAS Platform</h3>
+    <p style='font-size: 1.5rem; font-weight: bold; color: {PLATFORM_COLORS[best_platform_roas["platform"]]};'>{best_platform_roas['platform']}</p>
+    <p>Delivers <strong>{best_platform_roas['roas']:.1f}% ROAS</strong> with ${best_platform_roas['conversion_value']:,.0f} in conversion value from ${best_platform_roas['cost']:,.0f} spend.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col2:
     best_platform_conv = platform_summary.loc[platform_summary['conversions'].idxmax()]
-    st.info(f"""
-    **📊 Most Conversions**
-    
-    {best_platform_conv['platform']} generated {best_platform_conv['conversions']:,.0f} conversions, 
-    representing {(best_platform_conv['conversions']/total_conversions*100):.1f}% of all conversions.
-    """)
+    st.markdown(f"""
+    <div class="insight-box">
+    <h3>📊 Most Conversions</h3>
+    <p style='font-size: 1.5rem; font-weight: bold; color: {PLATFORM_COLORS[best_platform_conv["platform"]]};'>{best_platform_conv['platform']}</p>
+    <p>Generated <strong>{best_platform_conv['conversions']:,.0f} conversions</strong>, representing {(best_platform_conv['conversions']/total_conversions*100):.1f}% of all conversions.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col3:
     best_campaign = campaign_summary.loc[campaign_summary['roas'].idxmax()]
-    st.info(f"""
-    **🎯 Top Campaign**
-    
-    "{best_campaign['campaign_name']}" on {best_campaign['platform']} 
-    achieved {best_campaign['roas']:.1f}% ROAS with {best_campaign['conversions']:.0f} conversions.
-    """)
+    st.markdown(f"""
+    <div class="insight-box">
+    <h3>🎯 Top Campaign</h3>
+    <p style='font-size: 1.5rem; font-weight: bold; color: {PLATFORM_COLORS[best_campaign["platform"]]};'>{best_campaign['campaign_name'][:25]}...</p>
+    <p>On {best_campaign['platform']}, achieved <strong>{best_campaign['roas']:.1f}% ROAS</strong> with {best_campaign['conversions']:.0f} conversions.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Footer
 st.divider()
