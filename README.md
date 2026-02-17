@@ -1,7 +1,8 @@
-# 📊 Cross-Channel Advertising Analytics Dashboard
+# Cross-Channel Advertising Analytics Dashboard
 
-> **Senior Marketing Analyst - Technical Assignment**  
-> A comprehensive solution for analyzing multi-channel advertising performance across Facebook, Google Ads, and TikTok.
+**Senior Marketing Analyst - Technical Assignment**
+
+A comprehensive solution for analyzing multi-channel advertising performance across Facebook, Google Ads, and TikTok.
 
 [![Live Dashboard](https://img.shields.io/badge/Live-Dashboard-blue?style=for-the-badge)](https://marketing-analytics-dashboard-ar.streamlit.app/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
@@ -9,7 +10,7 @@
 
 ---
 
-## 🎯 Project Overview
+## Project Overview
 
 This project demonstrates end-to-end data analytics capabilities by:
 - **Integrating** data from three major advertising platforms
@@ -21,34 +22,34 @@ This project demonstrates end-to-end data analytics capabilities by:
 
 ---
 
-## 📊 Key Features
+## Key Features
 
-### **Interactive Dashboard**
-- 🎨 Real-time filtering by date range, platform, and campaign
-- 📈 10+ interactive visualizations using Plotly
-- 🎯 Key performance indicators (KPIs) with instant calculations
-- 💡 Automated insights highlighting top performers
+### Interactive Dashboard
+- Real-time filtering by date range, platform, and campaign
+- 10+ interactive visualizations using Plotly
+- Key performance indicators (KPIs) with instant calculations
+- Automated insights highlighting top performers
 
-### **Unified Data Model**
-- 🗄️ Snowflake database with standardized schema
-- 🔗 Combines 330+ records from 3 platforms
-- 📊 Automated KPI calculations (CTR, CPC, CPA, ROAS, CPM)
-- 🎨 Platform-specific metrics preserved
+### Unified Data Model
+- Snowflake database with standardized schema
+- Combines 330+ records from 3 platforms
+- Automated KPI calculations (CTR, CPC, CPA, ROAS, CPM)
+- Platform-specific metrics preserved
 
-### **Professional Design**
-- 🎨 Brand-accurate colors (Facebook Blue, Google Green, TikTok Pink)
-- 📱 Responsive layout
-- 🌙 Modern dark theme
-- ✨ Clean, intuitive interface
+### Professional Design
+- Brand-accurate colors (Facebook Blue, Google Green, TikTok Pink)
+- Responsive layout
+- Modern dark theme
+- Clean, intuitive interface
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
-### **View the Live Dashboard**
+### View the Live Dashboard
 Simply visit: [https://marketing-analytics-dashboard-ar.streamlit.app/](https://marketing-analytics-dashboard-ar.streamlit.app/)
 
-### **Run Locally**
+### Run Locally
 
 ```bash
 # Clone the repository
@@ -66,7 +67,7 @@ The dashboard will open in your browser at `http://localhost:8501`
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 marketing-analytics-dashboard/
@@ -89,13 +90,13 @@ marketing-analytics-dashboard/
 
 ---
 
-## 🗄️ Database Setup (Snowflake)
+## Database Setup (Snowflake)
 
-### **Prerequisites**
+### Prerequisites
 - Snowflake account (free trial available)
 - ACCOUNTADMIN role access
 
-### **Setup Steps**
+### Setup Steps
 
 **1. Create Database Structure**
 ```sql
@@ -135,9 +136,9 @@ marketing-analytics-dashboard/
 
 ---
 
-## 📊 Data Schema
+## Data Schema
 
-### **Unified Table Structure**
+### Unified Table Structure
 
 ```sql
 UNIFIED_AD_PERFORMANCE
@@ -160,99 +161,99 @@ UNIFIED_AD_PERFORMANCE
 
 ---
 
-## 📈 Key Insights
+## Key Insights
 
-### **Platform Performance (January 2024)**
+### Platform Performance (January 2024)
 
 | Platform | Spend | Conversions | ROAS | CPA | Strength |
 |----------|-------|-------------|------|-----|----------|
-| **Facebook** | $18,292 | 2,395 | 654.7% | $7.64 | 🏆 Best ROAS |
-| **Google** | $37,686 | 4,218 | 559.8% | $8.93 | ⚖️ Balanced |
-| **TikTok** | $74,267 | 6,750 | 454.4% | $11.00 | 📊 Most Volume |
+| **Facebook** | $18,292 | 2,395 | 654.7% | $7.64 | Best ROAS |
+| **Google** | $37,686 | 4,218 | 559.8% | $8.93 | Balanced |
+| **TikTok** | $74,267 | 6,750 | 454.4% | $11.00 | Most Volume |
 
-### **Top 3 Campaigns**
+### Top 3 Campaigns
 
 1. **Google - Search_Brand_Terms**: 980.6% ROAS, 1,445 conversions
 2. **Facebook - Conversions_Retargeting**: 839.7% ROAS, 1,070 conversions
 3. **Google - Shopping_All_Products**: 788.8% ROAS, 1,801 conversions
 
-### **Strategic Recommendations**
+### Strategic Recommendations
 
-1. ✅ **Increase Google Ads Budget** - Highest efficiency with room to scale
-2. ✅ **Optimize TikTok Targeting** - High volume but expensive conversions
-3. ✅ **Scale Facebook Retargeting** - Exceptional ROAS on cart abandoners
-4. ✅ **Implement Cross-Platform Funnel** - TikTok (awareness) → Facebook (consideration) → Google (conversion)
+1. **Increase Google Ads Budget** - Highest efficiency with room to scale
+2. **Optimize TikTok Targeting** - High volume but expensive conversions
+3. **Scale Facebook Retargeting** - Exceptional ROAS on cart abandoners
+4. **Implement Cross-Platform Funnel** - TikTok (awareness) → Facebook (consideration) → Google (conversion)
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
-### **Data & Analytics**
+### Data & Analytics
 - **Snowflake** - Cloud data warehouse
 - **SQL** - Data transformation and analysis
 - **Python** - Dashboard development
 - **Pandas** - Data manipulation
 
-### **Visualization**
+### Visualization
 - **Streamlit** - Interactive web framework
 - **Plotly** - Interactive charts and graphs
 
-### **Deployment**
+### Deployment
 - **Streamlit Cloud** - Free hosting
 - **GitHub** - Version control
 
 ---
 
-## 📊 Dashboard Features
+## Dashboard Features
 
-### **Key Performance Indicators**
+### Key Performance Indicators
 - Total Spend, Impressions, Clicks, Conversions, ROAS
 - Real-time calculations based on filtered data
 
-### **Platform Comparison**
+### Platform Comparison
 - Spend distribution pie chart
 - Conversions by platform bar chart
 - Efficiency metrics table
 
-### **Performance Trends**
+### Performance Trends
 - Daily spend trends
 - Daily conversions trends
 - ROAS trends over time
 
-### **Campaign Rankings**
+### Campaign Rankings
 - Top 10 campaigns by ROAS
 - Top 10 campaigns by conversions
 
-### **Efficiency Analysis**
+### Efficiency Analysis
 - CPA vs ROAS scatter plot
 - Platform performance radar chart
 
-### **Automated Insights**
+### Automated Insights
 - Best ROAS platform
 - Highest converting platform
 - Top performing campaign
 
 ---
 
-## 🎨 Design Choices
+## Design Choices
 
-### **Color Palette**
+### Color Palette
 - **Facebook**: `#1877F2` (Official Facebook Blue)
 - **Google**: `#34A853` (Official Google Green)
 - **TikTok**: `#FF0050` (Official TikTok Pink)
 
 Brand-accurate colors ensure instant platform recognition and professional appearance.
 
-### **Dark Theme**
+### Dark Theme
 - Reduces eye strain for extended viewing
 - Modern, professional aesthetic
 - Excellent contrast for data visualization
 
 ---
 
-## 📝 Assignment Requirements
+## Assignment Requirements
 
-### ✅ **Completed Deliverables**
+### Completed Deliverables
 
 - [x] **Database Setup** - Snowflake with 3 platform tables + unified table
 - [x] **Data Upload** - All CSV files loaded successfully
@@ -264,9 +265,9 @@ Brand-accurate colors ensure instant platform recognition and professional appea
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
-### **requirements.txt**
+### requirements.txt
 ```txt
 streamlit>=1.28.0
 pandas>=2.0.0
@@ -274,12 +275,12 @@ plotly>=5.0.0
 numpy>=1.24.0
 ```
 
-### **Python Version**
+### Python Version
 - Python 3.11 or higher recommended
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 This dashboard is deployed on **Streamlit Cloud** for free:
 
@@ -292,7 +293,7 @@ This dashboard is deployed on **Streamlit Cloud** for free:
 
 ---
 
-## 📊 Data Period
+## Data Period
 
 - **Date Range**: January 1-30, 2024
 - **Total Records**: 330 (110 per platform)
@@ -302,7 +303,7 @@ This dashboard is deployed on **Streamlit Cloud** for free:
 
 ---
 
-## 🎯 Use Cases
+## Use Cases
 
 This dashboard is designed for:
 - **Marketing Analysts** - Cross-platform performance analysis
@@ -313,7 +314,7 @@ This dashboard is designed for:
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 Potential improvements for production use:
 
@@ -330,13 +331,13 @@ Potential improvements for production use:
 
 ---
 
-## 📄 License
+## License
 
 This project was created as a technical assignment for a Senior Marketing Analyst position.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Streamlit** - For the excellent web framework
 - **Plotly** - For interactive visualization capabilities
@@ -345,10 +346,10 @@ This project was created as a technical assignment for a Senior Marketing Analys
 
 ---
 
-## 📊 Project Stats
+## Project Stats
 
 - **Lines of Code**: ~600 (Python) + ~400 (SQL)
-- **Development Time**: ~5 hours
+- **Development Time**: ~8 hours
 - **Visualizations**: 10+ interactive charts
 - **Data Points**: 330 records analyzed
 - **KPIs Tracked**: 20+ metrics
@@ -356,8 +357,6 @@ This project was created as a technical assignment for a Senior Marketing Analys
 ---
 
 <div align="center">
-
-**⭐ If you found this project helpful, please consider starring the repository! ⭐**
 
 [View Live Dashboard](https://marketing-analytics-dashboard-ar.streamlit.app/)
 
