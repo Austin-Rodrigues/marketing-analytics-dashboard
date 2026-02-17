@@ -9,7 +9,7 @@ from datetime import datetime
 # Page configuration
 st.set_page_config(
     page_title="Cross-Channel Ad Performance Dashboard",
-    page_icon="📊",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -121,11 +121,11 @@ def load_data():
 unified_data = load_data()
 
 # Header
-st.markdown('<p class="main-header">📊 Cross-Channel Advertising Performance Dashboard</p>', unsafe_allow_html=True)
+st.markdown('<p class="main-header">Cross-Channel Advertising Performance Dashboard</p>', unsafe_allow_html=True)
 st.markdown('<p class="sub-header">Unified analytics across Facebook, Google Ads, and TikTok advertising platforms</p>', unsafe_allow_html=True)
 
 # Sidebar filters
-st.sidebar.header("🎯 Filters")
+st.sidebar.header("Filters")
 
 # Date range filter
 min_date = unified_data['date'].min()
@@ -164,7 +164,7 @@ if campaigns:
     filtered_data = filtered_data[filtered_data['campaign_name'].isin(campaigns)]
 
 # KEY METRICS SECTION
-st.header("📈 Key Performance Indicators")
+st.header("Key Performance Indicators")
 
 col1, col2, col3, col4, col5 = st.columns(5)
 
@@ -188,7 +188,7 @@ with col5:
 st.divider()
 
 # PLATFORM COMPARISON
-st.header("🔄 Platform Performance Comparison")
+st.header("Platform Performance Comparison")
 
 platform_summary = filtered_data.groupby('platform').agg({
     'cost': 'sum',
@@ -262,7 +262,7 @@ st.dataframe(efficiency_display, use_container_width=True, hide_index=True)
 st.divider()
 
 # TIME SERIES ANALYSIS
-st.header("📅 Performance Trends Over Time")
+st.header("Performance Trends Over Time")
 
 daily_trends = filtered_data.groupby(['date', 'platform']).agg({
     'cost': 'sum',
@@ -338,7 +338,7 @@ st.plotly_chart(fig_roas, use_container_width=True)
 st.divider()
 
 # CAMPAIGN PERFORMANCE
-st.header("🎯 Top Performing Campaigns")
+st.header("Top Performing Campaigns")
 
 campaign_summary = filtered_data.groupby(['platform', 'campaign_name']).agg({
     'cost': 'sum',
@@ -400,7 +400,7 @@ with col2:
 st.divider()
 
 # EFFICIENCY ANALYSIS
-st.header("⚡ Cross-Platform Efficiency Analysis")
+st.header("Cross-Platform Efficiency Analysis")
 
 col1, col2 = st.columns(2)
 
@@ -464,7 +464,7 @@ with col2:
 st.divider()
 
 # KEY INSIGHTS
-st.header("💡 Key Insights")
+st.header("Key Insights")
 
 col1, col2, col3 = st.columns(3)
 
@@ -472,7 +472,7 @@ with col1:
     best_platform_roas = platform_summary.loc[platform_summary['roas'].idxmax()]
     st.markdown(f"""
     <div class="insight-box">
-    <h3>🏆 Best ROAS Platform</h3>
+    <h3>Best ROAS Platform</h3>
     <p style='font-size: 1.5rem; font-weight: bold; color: {PLATFORM_COLORS[best_platform_roas["platform"]]};'>{best_platform_roas['platform']}</p>
     <p>Delivers <strong>{best_platform_roas['roas']:.1f}% ROAS</strong> with ${best_platform_roas['conversion_value']:,.0f} in conversion value from ${best_platform_roas['cost']:,.0f} spend.</p>
     </div>
@@ -482,7 +482,7 @@ with col2:
     best_platform_conv = platform_summary.loc[platform_summary['conversions'].idxmax()]
     st.markdown(f"""
     <div class="insight-box">
-    <h3>📊 Most Conversions</h3>
+    <h3>Most Conversions</h3>
     <p style='font-size: 1.5rem; font-weight: bold; color: {PLATFORM_COLORS[best_platform_conv["platform"]]};'>{best_platform_conv['platform']}</p>
     <p>Generated <strong>{best_platform_conv['conversions']:,.0f} conversions</strong>, representing {(best_platform_conv['conversions']/total_conversions*100):.1f}% of all conversions.</p>
     </div>
@@ -492,7 +492,7 @@ with col3:
     best_campaign = campaign_summary.loc[campaign_summary['roas'].idxmax()]
     st.markdown(f"""
     <div class="insight-box">
-    <h3>🎯 Top Campaign</h3>
+    <h3>Top Campaign</h3>
     <p style='font-size: 1.5rem; font-weight: bold; color: {PLATFORM_COLORS[best_campaign["platform"]]};'>{best_campaign['campaign_name'][:25]}...</p>
     <p>On {best_campaign['platform']}, achieved <strong>{best_campaign['roas']:.1f}% ROAS</strong> with {best_campaign['conversions']:.0f} conversions.</p>
     </div>
